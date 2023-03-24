@@ -1,0 +1,54 @@
+_format_version: '3.0'
+_transform: true
+
+services:
+  - host: notification
+    name: notification_service
+    port: 80
+    protocol: http
+    routes:
+      - name: notification_route
+        paths:
+          - /notification
+        strip_path: true
+  - host: user
+    name: auth_service
+    port: 80
+    protocol: http
+    path: /auth
+    routes:
+      - name: auth_route
+        paths:
+          - /auth
+        strip_path: true
+  - host: user
+    name: user_service
+    port: 80
+    protocol: http
+    routes:
+      - name: user_route
+        paths:
+          - /user
+        strip_path: true
+upstreams:
+  - name: notification
+    targets:
+      - target: notification_service:3000
+  - name: user
+    targets:
+      - target: user_service:3000
+plugins:
+- name: jwt
+  service: notification_service
+  enabled: true
+  config:
+    key_claim_name: kid
+    claims_to_verify:
+    - exp
+- name: jwt
+  service: user_service
+  enabled: true
+  config:
+    key_claim_name: kid
+    claims_to_verify:
+    - exp
