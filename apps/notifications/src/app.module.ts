@@ -3,10 +3,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MongooseModule } from '@nestjs/mongoose';
-import { NotificationsController } from './notifications.controller';
-import { NotificationsService } from './notifications.service';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 @Module({
   imports: [
+    NotificationsModule,
     ConfigModule.forRoot({
       load: [config],
       isGlobal: true,
@@ -45,7 +45,5 @@ import { NotificationsService } from './notifications.service';
       },
     ]),
   ],
-  controllers: [NotificationsController],
-  providers: [NotificationsService],
 })
-export class NotificationsModule {}
+export class AppModule {}

@@ -1,12 +1,10 @@
-import { Logger, Module } from '@nestjs/common';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
-import { AuthModule } from './modules/auth/auth.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { LoggingInterceptor } from './interceptors/logging.interceptor';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import config from '@app/config';
+import { Logger, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
+import { AuthModule } from './modules/auth/auth.module';
 @Module({
   imports: [
     AuthModule,
@@ -31,9 +29,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       }),
     }),
   ],
-  controllers: [UserController],
   providers: [
-    UserService,
     Logger,
     {
       provide: APP_INTERCEPTOR,
@@ -41,4 +37,4 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     },
   ],
 })
-export class UserModule {}
+export class AppModule {}

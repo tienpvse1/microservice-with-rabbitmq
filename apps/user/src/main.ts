@@ -1,9 +1,9 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { UserModule } from './user.module';
+import { AppModule } from './app.module';
 async function bootstrap() {
-  const app = await NestFactory.create(UserModule);
+  const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
   const rmqConnectionUrl = config.get<string>('rabbitmq.connectionUrl');
   app.connectMicroservice<MicroserviceOptions>({
