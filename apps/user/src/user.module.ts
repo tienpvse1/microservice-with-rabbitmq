@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { AuthModule } from './modules/auth/auth.module';
@@ -9,6 +9,7 @@ import { LoggingInterceptor } from './interceptors/logging.interceptor';
   controllers: [UserController],
   providers: [
     UserService,
+    Logger,
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,

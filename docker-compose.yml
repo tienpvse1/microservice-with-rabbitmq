@@ -42,7 +42,17 @@ services:
     image: tienpvse/notification
     networks:
       - microservice
-
+  rabbitmq:
+    container_name: rabbitmq
+    image: 'bitnami/rabbitmq:latest'
+    environment:
+      - RABBITMQ_PASSWORD=password
+      - RABBITMQ_USERNAME=user
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - microservice
 networks:
   microservice:
     name: microservice

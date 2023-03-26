@@ -1,16 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { NotificationsController } from './notifications.controller';
 import { NotificationsService } from './notifications.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 describe('NotificationsController', () => {
-  let notificationsController: NotificationsController;
-  const mockService = {
-    getHello: jest.fn(),
+  let service: NotificationsService;
+  const mockClientProxy = {
+    emit: jest.fn(),
   };
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      controllers: [NotificationsController],
       providers: [NotificationsService],
       imports: [
         ClientsModule.register([
@@ -29,21 +27,17 @@ describe('NotificationsController', () => {
         ]),
       ],
     })
-      .overrideProvider(NotificationsService)
-      .useValue(mockService)
+      .overrideProvider('MATH_SERVICE')
+      .useValue(mockClientProxy)
       .compile();
 
-    notificationsController = app.get<NotificationsController>(
-      NotificationsController,
-    );
+    service = app.get(NotificationsService);
   });
 
   describe('root', () => {
-    it('should return message object', () => {
-      expect(notificationsController.getHello()).toMatchObject({
-        message: 'sent',
-      });
-      expect(mockService.getHello).toHaveBeenCalled();
+    it('should push new message to queue', () => {
+      service.getHello();
+      expect(mockClientProxy.emit).toHaveBeenCalledTimes(1);
     });
   });
 });

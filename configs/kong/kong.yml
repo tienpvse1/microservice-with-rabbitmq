@@ -1,4 +1,4 @@
-_format_version: '3.0'
+_format_version: '2.1'
 _transform: true
 
 services:
@@ -29,6 +29,7 @@ services:
       - name: user_route
         paths:
           - /user
+
         strip_path: true
 upstreams:
   - name: notification
@@ -38,17 +39,24 @@ upstreams:
     targets:
       - target: user_service:3000
 plugins:
-- name: jwt
-  service: notification_service
-  enabled: true
-  config:
-    key_claim_name: kid
-    claims_to_verify:
-    - exp
-- name: jwt
-  service: user_service
-  enabled: true
-  config:
-    key_claim_name: kid
-    claims_to_verify:
-    - exp
+  - name: jwt
+    service: notification_service
+    enabled: true
+    config:
+      key_claim_name: kid
+      claims_to_verify:
+        - exp
+  - name: jwt
+    service: user_service
+    enabled: true
+    config:
+      key_claim_name: kid
+      claims_to_verify:
+        - exp
+consumers:
+  - username: login_server
+    jwt_secrets:
+      - algorithm: RS256
+        key: this_value_to_prevent_default
+        secret: this_value_to_prevent_yml_file_validation_and_wont_be_used
+        rsa_public_key: "-----BEGIN PUBLIC KEY-----\nMIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQBnj2LAjuyxDlO4kpjoJ0Cb\nFKmuC7EHWoraSppkp+hZYiKh1Jml2j1+QMjTwqnMypKZ6RiOQVFzBh48V6OzuZcH\nM5WwtMGyLqbQfowERcS+qXO03XCVpu+d+GjNdzZ7JzLyNyYp0m56a/N6UE0c0Dha\nVe7blh4BdxwbaCuxEcq+qnqfhUCfRL+ouV0t4mTPOXNfg0/a4T2NoMX23w2Y3kWl\nclxSVJGl20yLOI5FpbHHPkD03MY/u6ZmeoyVZBSHIei84cTvj9H6QBvQxCWglLXv\nnaE14nl4fDTQeOfs4rzmTUvTIZ3NQVv6qyiPzm1XgXdk0tXaW77zC1J88FIlc0FR\nAgMBAAE=\n-----END PUBLIC KEY-----"

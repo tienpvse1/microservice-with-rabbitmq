@@ -3,6 +3,6 @@ import { NotificationsModule } from './notifications.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(NotificationsModule);
-  await app.listen(3000);
+  await app.listen(3001);
 }
 bootstrap();
