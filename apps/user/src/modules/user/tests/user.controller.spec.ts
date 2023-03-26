@@ -1,9 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
+import { UserController } from '../user.controller';
+import { UserService } from '../user.service';
 import { Logger } from '@nestjs/common';
+import { userStub } from './stubs/user.stub';
+jest.mock('../user.service');
 describe('UserController', () => {
   let userController: UserController;
+  let service: UserService;
   const mockOriginalMessage = { message: 'this is the dummy message' };
   const mockRmqContext = {
     getChannelRef: jest.fn().mockReturnValue({
@@ -18,11 +21,18 @@ describe('UserController', () => {
     }).compile();
 
     userController = app.get<UserController>(UserController);
+    service = app.get(UserService);
   });
 
   describe('root', () => {
     it('should return "Hello World!"', () => {
       expect(userController.getHello()).toBe('Hello World from user service!');
+    });
+  });
+  describe('create', () => {
+    it('should call the create function from service layer', async () => {
+      await userController.create(userStub());
+      expect(service.create).toBeCalled();
     });
   });
 

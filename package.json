@@ -57,6 +57,7 @@
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "dotenv": "^16.0.3",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -85,10 +86,12 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s",
       "!apps/**/*.module.ts",
+      "!apps/**/*.stub.ts",
       "!apps/**/*.dto.ts",
       "!apps/**/*.e2e-spec.ts",
       "!apps/**/*.entity.ts",
-      "!apps/**/main.ts"
+      "!apps/**/main.ts",
+      "!**/*.enum.ts"
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
@@ -96,6 +99,7 @@
       "<rootDir>/apps/",
       "<rootDir>/libs/"
     ],
+    "resetMocks": false,
     "moduleNameMapper": {
       "^@app/config(|/.*)$": "<rootDir>/libs/config/src/$1",
       "^@app/common(|/.*)$": "<rootDir>/libs/common/src/$1"
