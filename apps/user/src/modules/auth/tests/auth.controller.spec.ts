@@ -3,10 +3,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+import { AuthController } from '../auth.controller';
+import { AuthService } from '../auth.service';
+jest.mock('../auth.service.ts');
 describe('AuthController', () => {
   let controller: AuthController;
+  let service: AuthService;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
@@ -15,10 +17,10 @@ describe('AuthController', () => {
         JwtModule.register({
           signOptions: { expiresIn: '3600s', algorithm: 'RS256' },
           privateKey: readFileSync(
-            join(__dirname, '../../../../../', 'private.pem'),
+            join(__dirname, '../../../../../../', 'private.pem'),
           ),
           publicKey: readFileSync(
-            join(__dirname, '../../../../../', 'public.pem'),
+            join(__dirname, '../../../../../../', 'public.pem'),
           ),
           verifyOptions: { algorithms: ['RS256'] },
         }),
@@ -26,6 +28,7 @@ describe('AuthController', () => {
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
+    service = module.get(AuthService);
     expect(module).toBeDefined();
   });
 
@@ -33,7 +36,7 @@ describe('AuthController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('test the login function', () => {
+  describe('login', () => {
     it('should throw error when call the login function', () => {
       try {
         const stub = { password: 'tienpvse', username: 'tienpvse' };
@@ -46,6 +49,13 @@ describe('AuthController', () => {
       const stub = { password: 'password', username: 'tienpvse' };
       const { token } = controller.login(stub);
       expect(typeof token).toBe('string');
+    });
+  });
+  describe('verify', () => {
+    it('should call the verify function from service layer', () => {
+      const token = 'random-token';
+      controller.verify(token);
+      expect(service.verify).toHaveBeenCalledWith(token);
     });
   });
 });
