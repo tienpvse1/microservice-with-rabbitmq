@@ -1,13 +1,16 @@
 import config from '@app/config';
-import { Logger, Module } from '@nestjs/common';
+import { Logger, Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { AuthModule } from './modules/auth/auth.module';
+import { User } from './modules/user/entities/user.entity';
+import { UserModule } from './modules/user/user.module';
 @Module({
   imports: [
     AuthModule,
+    UserModule,
     ConfigModule.forRoot({
       load: [config],
       isGlobal: true,
@@ -22,7 +25,7 @@ import { AuthModule } from './modules/auth/auth.module';
         username: config.getOrThrow('userDatabase.username'),
         password: config.getOrThrow('userDatabase.password'),
         database: config.getOrThrow('userDatabase.name'),
-        entities: [],
+        entities: [User],
         logger: 'advanced-console',
         synchronize: true,
         logging: 'all',
@@ -34,6 +37,10 @@ import { AuthModule } from './modules/auth/auth.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
     },
   ],
 })

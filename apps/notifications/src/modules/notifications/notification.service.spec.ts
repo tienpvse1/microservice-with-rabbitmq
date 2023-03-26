@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotificationsService } from './notifications.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { MongooseModule } from '@nestjs/mongoose';
+import { NotificationSchema } from './entity/notification.entity';
 
 describe('NotificationsController', () => {
   let service: NotificationsService;
@@ -11,6 +13,9 @@ describe('NotificationsController', () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [NotificationsService],
       imports: [
+        MongooseModule.forFeature([
+          { name: Notification.name, schema: NotificationSchema },
+        ]),
         ClientsModule.register([
           {
             name: 'MATH_SERVICE',

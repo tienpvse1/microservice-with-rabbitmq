@@ -1,13 +1,14 @@
-import { Controller, Get, Logger } from '@nestjs/common';
-import { UserService } from './user.service';
+import { Body, Controller, Get, Logger, Post } from '@nestjs/common';
 import {
   Ctx,
   MessagePattern,
   Payload,
   RmqContext,
 } from '@nestjs/microservices';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserService } from './user.service';
 
-@Controller()
+@Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
@@ -17,6 +18,11 @@ export class UserController {
   @Get()
   getHello(): string {
     return this.userService.getHello();
+  }
+
+  @Post()
+  create(@Body() dto: CreateUserDto) {
+    return this.userService.create(dto);
   }
 
   @MessagePattern('sum')
