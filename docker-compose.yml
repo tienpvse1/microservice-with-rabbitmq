@@ -53,6 +53,36 @@ services:
       - 15672:15672
     networks:
       - microservice
+  user_db:
+    image: postgres:14.0-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${USER_DATABASE_USERNAME-postgres}
+      - POSTGRES_PASSWORD=${USER_DATABASE_PASSWORD-postgres}
+      - POSTGRES_DB=${USER_DATABASE_NAME-postgres}
+    volumes:
+      - user_db_data:/var/lib/postgresql/data
+    networks:
+      - microservice
+    ports:
+      - 5432:5432
+  notification_db:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${NOTIFICATION_DATABASE_USERNAME-mongo}
+      MONGO_INITDB_ROOT_PASSWORD: ${NOTIFICATION_DATABASE_PASSWORD-mongo}
+    networks:
+      - microservice
+    volumes:
+      - notification_db_data:/data/db
+    ports:
+      - 27017:27017
 networks:
   microservice:
     name: microservice
+volumes:
+  user_db_data:
+    name: user_db_data
+  notification_db_data:
+    name: notification_db_data

@@ -1,13 +1,15 @@
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { UserModule } from './user.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-
+import { UserModule } from './user.module';
 async function bootstrap() {
   const app = await NestFactory.create(UserModule);
+  const config = app.get(ConfigService);
+  const rmqConnectionUrl = config.get<string>('rabbitmq.connectionUrl');
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.RMQ,
     options: {
-      urls: ['amqp://user:password@localhost:5672'],
+      urls: [rmqConnectionUrl],
       queue: 'cats_queue',
       noAck: false,
       queueOptions: {
@@ -16,6 +18,7 @@ async function bootstrap() {
     },
   });
   await app.startAllMicroservices();
-  await app.listen(3000);
+  const port = config.getOrThrow<number>('userService.port');
+  await app.listen(port);
 }
 bootstrap();

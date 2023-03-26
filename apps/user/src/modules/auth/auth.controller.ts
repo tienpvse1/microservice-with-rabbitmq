@@ -7,6 +7,11 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post()
   login(@Body() body: LoginDto) {
-    return this.authService.login(body.username, body.password);
+    const result = this.authService.login(body.username, body.password);
+    return result;
+  }
+  @Post('verify')
+  verify(@Body('token') token: string) {
+    return this.authService.verify(token);
   }
 }

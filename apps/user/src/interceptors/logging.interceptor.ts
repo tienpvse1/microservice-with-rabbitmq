@@ -6,7 +6,7 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { map } from 'rxjs';
+import { tap } from 'rxjs';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -15,9 +15,8 @@ export class LoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler<any>) {
     const request: Request = context.switchToHttp().getRequest();
     return next.handle().pipe(
-      map(() => {
+      tap(() => {
         this.logger.debug(request.url);
-        return request.url;
       }),
     );
   }
