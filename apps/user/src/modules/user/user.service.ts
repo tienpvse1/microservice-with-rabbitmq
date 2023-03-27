@@ -1,15 +1,15 @@
 import { AvailableService } from '@app/common/enum/available-service.enum';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
+import { USER_REPOSITORY } from './user.provider';
 @Injectable()
 export class UserService {
   constructor(
     @Inject(AvailableService.NOTIFICATION_SERVICE) private client: ClientProxy,
-    @InjectRepository(User) private repository: Repository<User>,
+    @Inject(USER_REPOSITORY) private repository: Repository<User>,
   ) {}
   getHello(): string {
     return 'Hello World from user service!';

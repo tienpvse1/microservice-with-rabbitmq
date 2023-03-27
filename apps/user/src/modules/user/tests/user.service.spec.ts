@@ -1,11 +1,11 @@
 import { AvailableService } from '@app/common/enum/available-service.enum';
 import { BadRequestException, Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { mockClientProxy } from '../__mocks__/client-proxy';
 import { mockUserRepository } from '../__mocks__/user.repository';
 import { User } from '../entities/user.entity';
+import { USER_REPOSITORY } from '../user.provider';
 import { UserService } from '../user.service';
 import { createdUserStub, errorUserStub, userStub } from './stubs/user.stub';
 describe('UserService', () => {
@@ -17,7 +17,7 @@ describe('UserService', () => {
         UserService,
         Logger,
         {
-          provide: getRepositoryToken(User),
+          provide: USER_REPOSITORY,
           useValue: mockUserRepository,
         },
         {
@@ -27,7 +27,7 @@ describe('UserService', () => {
       ],
     }).compile();
     service = app.get(UserService);
-    repository = app.get(getRepositoryToken(User));
+    repository = app.get(USER_REPOSITORY);
   });
   describe('getHello', () => {
     it('should return hello message', () => {

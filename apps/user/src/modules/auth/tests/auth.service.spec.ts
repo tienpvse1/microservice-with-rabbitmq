@@ -6,6 +6,8 @@ import { LoginDto } from '../dto/login.dto';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { mockJwtService } from '../__mocks__/jwt.service';
+import { ConfigModule } from '@nestjs/config';
+import config from '@app/config';
 describe('AuthService', () => {
   let service: AuthService;
   let jwtService: JwtService;
@@ -13,6 +15,9 @@ describe('AuthService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [AuthService],
       imports: [
+        ConfigModule.forRoot({
+          load: [config],
+        }),
         JwtModule.register({
           signOptions: { expiresIn: '3600s', algorithm: 'RS256' },
           privateKey: readFileSync(

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "CommonJS",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -29,6 +29,12 @@
       ],
       "@app/common/*": [
         "libs/common/src/*"
+      ],
+      "@app/datasource": [
+        "libs/datasource/src"
+      ],
+      "@app/datasource/*": [
+        "libs/datasource/src/*"
       ]
     }
   }
