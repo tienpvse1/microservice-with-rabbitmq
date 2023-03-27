@@ -5,7 +5,7 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+  <p align="center">This project using <a href="https://nestjs.com" target="_blank">NestJS</a> with monorepo project management style to build microservices structure.</p>
     <p align="center">
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
@@ -24,7 +24,17 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+this project is aiming for demonstration for all the technologies that I know, it contains:
+
+- [Kong](https://konghq.com): API gateway
+- [RabbitMQ](https://www.rabbitmq.com): Message broker, that will handle communication part between services
+- [PostgresQL](https://www.postgresql.org): Relational database
+- [MongoDB](https://www.mongodb.com/): Non-Relational database
+- [Websocket](https://socket.io/): Bidirectional and low-latency communication for every platform
+- [Docker](https://www.docker.com/)
+- [JWT](https://jwt.io/):JSON Web Tokens are an open, industry standard RFC 7519 method for representing claims securely between two parties
+- [Jest](https://jestjs.io/): Jest is a delightful JavaScript Testing Framework with a focus on simplicity
+- [Typeorm](https://typeorm.io/):TypeORM is an ORM that can run in NodeJS, Browser, Cordova, PhoneGap, Ionic, React Native, NativeScript, Expo, and Electron platforms and can be used with TypeScript and JavaScript (ES5, ES6, ES7, ES8)
 
 ## Installation
 
@@ -64,10 +74,9 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - [tienpvse](https://github.com/tienpvse1)
+- LinkedIn - [Tien Phan](https://www.linkedin.com/in/tien-phan-b2223a24a/)
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+[MIT licensed](LICENSE).
