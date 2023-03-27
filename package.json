@@ -94,7 +94,8 @@
       "!apps/**/*.e2e-spec.ts",
       "!apps/**/*.entity.ts",
       "!apps/**/main.ts",
-      "!**/*.enum.ts"
+      "!**/*.enum.ts",
+      "!libs/datasource/src/migrations/*.ts"
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
